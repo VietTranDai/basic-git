@@ -24,10 +24,9 @@ public class AdminController {
     private final AdminService adminService;
     private final AdminDtoConverter adminDtoConverter;
 
-    public AdminController( AdminService adminService,
-                            AdminDtoConverter adminDtoConverter) {
-       
-       
+    public AdminController(AdminService adminService,
+            AdminDtoConverter adminDtoConverter) {
+
         this.adminService = adminService;
         this.adminDtoConverter = adminDtoConverter;
     }
@@ -35,14 +34,15 @@ public class AdminController {
     @GetMapping
     public ResponseEntity<ResponseObject> getAllAdmins() {
         Set<AdminDto> admins = adminDtoConverter.convert(adminService.getAllAdmins());
+        System.out.println(admins);
         return ResponseEntity.ok(new ResponseObject("success", "All admins fetched successfully", admins));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getAdminById(@PathVariable Long id) {
         return adminService.getAdminById(id)
-            .map(admin -> ResponseEntity.ok(new ResponseObject("success", "Admin fetched successfully", admin)))
-            .orElseGet(() -> ResponseEntity.notFound().build());
+                .map(admin -> ResponseEntity.ok(new ResponseObject("success", "Admin fetched successfully", admin)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/search")
@@ -62,7 +62,8 @@ public class AdminController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseObject> updateAdmin(@PathVariable Long id, @RequestBody UpdateAdminRequest adminRequest) {
+    public ResponseEntity<ResponseObject> updateAdmin(@PathVariable Long id,
+            @RequestBody UpdateAdminRequest adminRequest) {
         try {
             adminRequest.setId(id);
             AdminDto updatedAdmin = adminDtoConverter.convert(adminService.updateAdmin(adminRequest));
