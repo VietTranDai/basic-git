@@ -35,6 +35,7 @@ public class AdminController {
     public ResponseEntity<ResponseObject> getAllAdmins() {
         Set<AdminDto> admins = adminDtoConverter.convert(adminService.getAllAdmins());
         System.out.println(admins);
+        System.out.println("Test second branch.");
         return ResponseEntity.ok(new ResponseObject("success", "All admins fetched successfully", admins));
     }
 
